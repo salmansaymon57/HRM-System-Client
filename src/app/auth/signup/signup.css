@@ -17,8 +17,8 @@
   border-radius: 15px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 450px;  /* INCREASED: Slightly wider for 2-col (from 350px) */
-  max-height: 95vh;
+  max-width: 450px;
+  max-height: 90vh;
   overflow-y: auto;
   backdrop-filter: blur(10px);
   display: flex;
@@ -36,29 +36,21 @@
   margin: 0;
 }
 
-/* NEW: Form wrapper for grid layout */
 form {
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* 2 equal columns by default */
-  gap: 12px 16px;  /* Vertical gap 12px, horizontal 16px */
-  align-items: start;  /* Align tops for even rows */
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  align-items: start;
 }
 
-/* NEW: Full-width for singletons (Role, isActive) */
 .form-group.full-width {
-  grid-column: 1 / -1;  /* Span both columns */
-}
-
-/* NEW: Specific selectors for pairing – add class="full-width" to <div class="form-group"> for Role and isActive in HTML if needed, but using nth-child for auto */
-.form-group:nth-child(8),  /* Role (assuming order: 1-username,2-email,3-country,4-phone,5-password,6-confirm,7-role,8-isactive) */
-.form-group:nth-child(9) {  /* Wait, HTML has 8 groups: adjust to nth-child(7) for role, nth-child(8) for isactive */
   grid-column: 1 / -1;
 }
 
 .form-group {
-  margin-bottom: 0;  /* REMOVED: Grid handles spacing */
+  margin-bottom: 0;
   display: flex;
-  flex-direction: column;  /* Stack label + input vertically within cell */
+  flex-direction: column;
 }
 
 .form-group label {
@@ -69,32 +61,55 @@ form {
   font-size: 14px;
 }
 
+/* FIXED: Uniform styling for inputs AND selects */
 .form-group input,
-.form-group input[type="checkbox"] {
+.form-group select {
   width: 100%;
   padding: 10px;
   border: 2px solid #e2e8f0;
   border-radius: 8px;
   font-size: 15px;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
+  background-color: white;  /* NEW: Ensure white bg for select */
+  appearance: none;  /* NEW: Reset default select styling */
+  cursor: pointer;
+}
+
+/* NEW: Custom select arrow to match design */
+.form-group select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");  /* Tailwind-like arrow */
+  background-position: right 8px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 32px;  /* Space for arrow */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);  /* NEW: Subtle focus ring */
 }
 
 .form-group input[type="checkbox"] {
   width: auto;
   margin-right: 8px;
-  transform: scale(1.2);  /* NEW: Slightly larger for touch */
+  transform: scale(1.2);
+  accent-color: #667eea;  /* NEW: Custom checkbox color */
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #667eea;
-}
-
-/* NEW: Checkbox container styling for full-width */
 .form-group:has(input[type="checkbox"]) {
-  align-items: flex-start;  /* Align checkbox left */
+  align-items: flex-start;
   padding-left: 4px;
+  /* NEW: Make checkbox row more compact */
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group:has(input[type="checkbox"]) label {
+  margin-bottom: 0;  /* Align label with checkbox */
 }
 
 .signup-btn {
@@ -107,13 +122,14 @@ form {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  margin-top: 10px;  /* ADJUSTED: After grid */
-  grid-column: 1 / -1;  /* NEW: Button spans full width below grid */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 10px;
+  grid-column: 1 / -1;
 }
 
 .signup-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);  /* NEW: Hover shadow */
 }
 
 .signup-footer {
@@ -130,16 +146,15 @@ form {
   text-decoration: none;
 }
 
-/* ADJUSTED: Mobile – stack to 1 column */
 @media (max-width: 480px) {
   form {
-    grid-template-columns: 1fr;  /* 1 column on small screens */
+    grid-template-columns: 1fr;
     gap: 12px;
   }
   
   .signup-container {
     padding: 20px;
-    max-width: 350px;  /* Back to narrow on mobile */
+    max-width: 350px;
   }
   
   .signup-header h1 {

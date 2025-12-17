@@ -3,18 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { count } from 'node:console';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './signup.html',
-  styleUrl: './signup.css',
+  styleUrls: ['./signup.css'],  // FIXED: Changed from styleUrl to styleUrls
 })
 export class Signup implements OnInit {
 
   signupForm: FormGroup;
   submitted = false;
+  countries$!: Observable<any[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -33,19 +34,23 @@ export class Signup implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // FIXED: Added cca3 to fields for country code values
+    this.countries$ = this.http.get<any[]>('https://restcountries.com/v3.1/all?fields=name,cca3');
+  }
 
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.signupForm.invalid) {
+    // FIXED: Added password confirmation check
+    if (this.signupForm.invalid || this.signupForm.value.password !== this.signupForm.value.confirmPassword) {
       return;
     }
 
     const signupData = {
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
-      country: this.signupForm.value.country,
+      country: this.signupForm.value.country,  // Now uses cca3 code (e.g., "USA")
       phone: this.signupForm.value.phone,
       password: this.signupForm.value.password,
       confirmPassword: this.signupForm.value.confirmPassword,
@@ -66,7 +71,6 @@ export class Signup implements OnInit {
     });
   }
 
-  
   get f() { return this.signupForm.controls; }
 
 }
