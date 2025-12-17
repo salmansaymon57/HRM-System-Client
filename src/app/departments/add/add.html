@@ -1,0 +1,45 @@
+<form [formGroup]="_form" (ngSubmit)="onSubmit()">
+  <h1>{{title}}</h1>
+
+  <div class="content">
+    <p>Employee addition form goes here.</p>
+
+    <div class="form-group">
+      <label for="id">Id</label>
+      <input id="id" type="text" formControlName="id" readonly> 
+    </div>
+
+    <div class="form-group">
+      <label for="name">Department Name</label>
+      <input id="name" type="text" formControlName="name">
+      <div *ngIf="_form.get('name')?.invalid && _form.get('name')?.touched" class="error">Name is required (min 3 chars).</div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input id="description" type="text" formControlName="description">
+      <div *ngIf="_form.get('description')?.invalid && _form.get('description')?.touched" class="error">Description is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="isActive">isActive</label>
+      <input id="isActive" type="checkbox" formControlName="isActive">
+      <div *ngIf="_form.get('isActive')?.invalid && _form.get('isActive')?.touched" class="error">isActive is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="createdDate">Created Date</label>
+      <input id="createdDate" type="date" formControlName="createdDate">
+    </div>
+    <div class="form-group">
+      <label for="modifiedDate">Modified Date</label>
+      <input id="modifiedDate" type="date" formControlName="modifiedDate">
+    </div> 
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-primary" [disabled]="_form.invalid">Submit</button>
+    <button type="button" class="btn btn-warn" (click)="onCancel()">Cancel</button>
+  </div>
+</form>
+

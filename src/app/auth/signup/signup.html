@@ -1,0 +1,56 @@
+<div class="signup-style">
+  <div class="signup-container">
+    <div class="signup-header">
+      <h1>Create Account</h1>
+    </div>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" formControlName="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" formControlName="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input type="text" id="country" formControlName="country" required>
+      </div>
+
+
+      <div class="form-group">
+        <label for="phone">Phone number</label>
+        <input type="text" id="phone" formControlName="phone" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role</label>
+        <input type="text" id="role" formControlName="role" required>
+      </div>
+
+      <div class="form-group">
+        <label for="isActive">isActive?</label>
+        <input id="isActive" type="checkbox" formControlName="isActive">
+      </div>
+
+
+
+      <button type="submit" class="signup-btn">Sign Up</button>
+    </form>
+    <div class="signup-footer">
+      <p>Already have an account? <a href="login">Sign in</a></p>
+    </div>
+  </div>
+</div>

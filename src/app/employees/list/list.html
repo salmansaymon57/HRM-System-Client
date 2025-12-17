@@ -1,0 +1,86 @@
+
+
+<div>
+  <nav>
+  <ul class="nav-left">
+  </ul>
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</nav>
+<div class="main-content">
+  <h1>Welcome to the Dashboard</h1>
+</div>
+</div>
+
+
+
+<div class="card">
+  <h2>Employee List</h2>
+
+  <div class="header">
+    <button class="btn btn-primary" (click)="add()">
+      Add New Employee
+    </button>
+  </div>
+
+  <div class="content">
+    <p>Welcome to the Employee Management System.</p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Date of Birth</th>
+          <th>Hire Date</th>
+          <th>Salary</th>
+          <th>Department ID</th>
+          <th>Department Name</th>
+          <!-- <th>Created Date</th>
+          <th>Modified Date</th> -->
+
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of datasource.data">
+          <td>{{element.id}}</td>
+          <td>{{element.firstName}}</td>
+          <td>{{element.lastName}}</td>
+          <td>{{element.email}}</td>
+          <td>{{element.phoneNumber}}</td>
+          <td>{{element.dateOfBirth}}</td>
+          <td>{{element.hireDate}}</td>
+          <td>{{element.salary}}</td>
+          <td>{{element.departmentId}}</td>
+          <td>{{element.departmentName}}</td>
+          <!-- <td>{{element.createdDate}}</td>
+          <td>{{element.modifiedDate}}</td> -->
+          <td>
+            <button class="btn btn-accent" (click)="Edit(element.id)">Edit</button>
+            <button class="btn btn-warn" (click)="Delete(element.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div *ngIf="showModal" class="modal-overlay" (click)="onCancelled()">
+
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <app-add [editData]="currentEmployee" [isAddMode]="isAddMode" (saved)="onSaved()" (cancelled)="onCancelled()">
+    </app-add>
+  </div>
+
+
+</div>
+
+
+<d_app-list></d_app-list>
+
+

@@ -1,0 +1,56 @@
+<div class="card">
+  <h2>Department List</h2>
+
+  <div class="header">
+    <button class="btn btn-primary" (click)="add()">
+      Add New Department
+    </button>
+  </div>
+    <div class="content">
+    <p>Welcome to the Department Management System.</p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>isActive</th>
+          <th>Created Date</th>
+          <th>Modified Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of datasource.data">
+          <td>{{element.id}}</td>
+          <td>{{element.name}}</td>
+          <td>{{element.description}}</td>
+          <td>{{element.isActive}}</td>
+          <td>{{element.createdDate}}</td>
+          <td>{{element.modifiedDate}}</td>
+          <td>
+            <button class="btn btn-accent" (click)="Edit(element.id)">Edit</button>
+            <button class="btn btn-warn" (click)="Delete(element.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+  
+<div *ngIf="showModal" class="modal-overlay" (click)="onCancelled()">
+ 
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <d_app-add
+      [editData]="currentDepartment"
+      [isAddMode]="isAddMode"
+      (saved)="onSaved()"
+      (cancelled)="onCancelled()">
+    </d_app-add>
+  </div>
+
+  
+</div>

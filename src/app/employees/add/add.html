@@ -1,0 +1,71 @@
+<form [formGroup]="_form" (ngSubmit)="onSubmit()">
+  <h1>{{title}}</h1>
+
+  <div class="content">
+    <p>Employee addition form goes here.</p>
+
+    <div class="form-group">
+      <label for="id">Id</label>
+      <input id="id" type="text" formControlName="id" readonly>  <!-- FIXED: type="text" for string -->
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input id="firstName" type="text" formControlName="firstName">
+      <div *ngIf="_form.get('firstName')?.invalid && _form.get('firstName')?.touched" class="error">First Name is required (min 3 chars).</div>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" type="text" formControlName="lastName">
+      <div *ngIf="_form.get('lastName')?.invalid && _form.get('lastName')?.touched" class="error">Last Name is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email">
+      <div *ngIf="_form.get('email')?.invalid && _form.get('email')?.touched" class="error">Valid email required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input id="phoneNumber" type="text" formControlName="phoneNumber">
+    </div>
+
+    <div class="form-group">
+      <label for="dateOfBirth">Date of Birth</label>
+      <input id="dateOfBirth" type="date" formControlName="dateOfBirth">
+    </div>
+
+    <div class="form-group">
+      <label for="hireDate">Hire Date</label>
+      <input id="hireDate" type="date" formControlName="hireDate">
+    </div>
+    <div class="form-group">
+      <label for="salary">Salary</label>
+      <input id="salary" type="number" formControlName="salary">
+    </div>
+    <div class="form-group">
+      <label for="departmentId">Department ID</label>
+      <input id="departmentId" type="number" formControlName="departmentId">
+    </div>
+    <div class="form-group">
+      <label for="departmentName">Department Name</label>
+      <input id="departmentName" type="text" formControlName="departmentName">
+    </div>
+    <div class="form-group">
+      <label for="createdDate">Created Date</label>
+      <input id="createdDate" type="date" formControlName="createdDate">
+    </div>
+    <div class="form-group">
+      <label for="modifiedDate">Modified Date</label>
+      <input id="modifiedDate" type="date" formControlName="modifiedDate">
+    </div> 
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-primary" [disabled]="_form.invalid">Submit</button>
+    <button type="button" class="btn btn-warn" (click)="onCancel()">Cancel</button>
+  </div>
+</form>
+
