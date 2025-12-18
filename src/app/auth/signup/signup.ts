@@ -47,6 +47,8 @@ export class Signup implements OnInit {
       return;
     }
 
+
+
     const signupData = {
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
@@ -69,6 +71,15 @@ export class Signup implements OnInit {
         alert('Signup failed. Please try again.');
       }
     });
+  }
+
+
+  //Prevent paste event
+  preventPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    
+    alert('Paste blocked: Please type your password manually.');
+   
   }
 
   get f() { return this.signupForm.controls; }

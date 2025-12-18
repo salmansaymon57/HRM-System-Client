@@ -69,4 +69,12 @@ export class Login {
     });
   } 
 }
+
+//Prevent paste event
+  preventPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    
+    alert('Paste blocked: Please type your password manually.');
+   
+  }
 }
