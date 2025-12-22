@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { d_List } from './departments/list/list';
 import { Signup } from './auth/signup/signup';
+import { VerifyEmail } from './auth/verify-email/verify-email';
+import { Unverified } from './auth/unverified/unverified';
 
 export const routes: Routes = [
 
@@ -24,5 +26,12 @@ export const routes: Routes = [
     },
     {
         path:'auth/signup', component: Signup
-    }
+    },
+    {
+        path:'verify-email', component: VerifyEmail
+    },
+
+    {
+        path:'unverified', component: Unverified
+    },
 ];

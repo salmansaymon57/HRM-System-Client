@@ -63,7 +63,7 @@ export class Signup implements OnInit {
     this.http.post('https://localhost:44393/api/User', signupData).subscribe({
       next: (response) => {
         console.log('Signup successful:', response);
-        alert('Signup successful! Please log in.');
+        alert('A verification email has been sent to your email address. To complete your sign-up, please verify your email and then log in.');
         this.router.navigate(['/login']);
       },
       error: (error) => {

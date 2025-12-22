@@ -1,0 +1,19 @@
+<div class="verify-style">
+  <p-card
+    header="Signup Successful!"
+    styleClass="container"
+    [style]="{ 'width': '90%', 'max-width': '400px' }"
+    headerStyleClass="header-success"
+  >
+    <ng-template pTemplate="content">
+      <p class="message-text">Your email is verified. Now you can login.</p>
+      <p-button
+        label="OK"
+        icon="pi pi-check"
+        severity="success"
+        (onClick)="login()"
+        styleClass="w-full mt-3"
+      ></p-button>
+    </ng-template>
+  </p-card>
+</div>

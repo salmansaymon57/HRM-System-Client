@@ -4,6 +4,7 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth-service';
 
+
 import { Router } from '@angular/router';
 
 @Component({

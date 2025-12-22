@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth-service';
 
 
+
 @Component({
   selector: 'app-list',
   imports: [CommonModule, Add, d_List],

@@ -1,0 +1,19 @@
+<div class="unverified-style">
+  <p-card
+    header="Signup Failed!"
+    styleClass="container"
+    [style]="{ 'width': '90%', 'max-width': '400px' }"
+    headerStyleClass="header-failed"
+  >
+    <ng-template pTemplate="content">
+      <p class="message-text">Your email is not verified.</p>
+      <p-button
+        label="OK"
+        icon="pi pi-check"
+        severity="info"
+        (onClick)="login()"
+        styleClass="w-full mt-3"
+      ></p-button>
+    </ng-template>
+  </p-card>
+</div>
