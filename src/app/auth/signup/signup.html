@@ -18,8 +18,8 @@
         <label for="country">Country</label>
         <select id="country" formControlName="country" required>
           <option value="">-- Select a Country --</option>
-          <option *ngFor="let country of (countries$ | async)" [ngValue]="country.cca3">
-            {{ country.name.common }}
+          <option *ngFor="let country of (countries$ | async)">
+            {{ country.name }}
           </option>
         </select>
       </div>
@@ -39,10 +39,10 @@
         <input type="password" id="confirmPassword" formControlName="confirmPassword" required (paste)="preventPaste($event)">
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="role">Role</label>
         <input type="text" id="role" formControlName="role" required>
-      </div>
+      </div> -->
 
       
 

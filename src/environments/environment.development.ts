@@ -1,3 +1,3 @@
 export const environment = {
-     ssrIgnoresSsl: false,
+     ssrIgnoresSsl: true,
 };

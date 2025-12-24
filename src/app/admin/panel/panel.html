@@ -1,0 +1,101 @@
+<!-- admin-panel.component.html -->
+<div class="admin-panel">
+  <!-- Sidebar (Persistent left sidebar with expanded menu) -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Admin Pro</h2>
+      <p-menu [model]="menuItems" [popup]="false" class="sidebar-menu"></p-menu>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="header">
+      <h1>Welcome to Admin Panel</h1>
+      <div class="header-actions">
+        <span class="p-input-icon-left search-input">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Quick search..." />
+        </span>
+        <p-button label="Notifications" icon="pi pi-bell" class="p-button-text"></p-button>
+        <p-button label="Profile" icon="pi pi-user" class="p-button-text"></p-button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="main-content">
+      <!-- Dashboard Section -->
+      <div *ngIf="activeTab === 'dashboard'">
+        <div class="dashboard-grid">
+          <div *ngFor="let card of statCards" class="stat-card" [style.background-color]="card.color + '20'">
+            <div class="stat-icon">{{ card.icon }}</div>
+            <div class="stat-content">
+              <h3>{{ card.value }}</h3>
+              <p>{{ card.title }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <div *ngIf="activeTab === 'users'">
+        <p-card header="User List" class="users-card">
+          <div class="search-container">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" placeholder="Search users..." />
+            </span>
+            <p-button label="Add New User" icon="pi pi-plus" class="p-button-success"></p-button>
+          </div>
+          <p-table [value]="users" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+              <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.department }}</td>
+                <td>
+                  <span [ngClass]="getStatusClass(user.status)">{{ user.status }}</span>
+                </td>
+                <td>{{ user.joinedDate | date:'short' }}</td>
+                <td>
+                  <p-button icon="pi pi-pencil" class="p-button-text p-button-sm" (click)="editUser(user)"></p-button>
+                  <p-button icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="deleteUser(user)"></p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+
+      <!-- Settings Section -->
+      <div *ngIf="activeTab === 'settings'">
+        <p-card header="Settings">
+          <p>Placeholder for settings - configure profiles, system, etc.</p>
+        </p-card>
+      </div>
+
+      <!-- Support Section -->
+      <div *ngIf="activeTab === 'support'">
+        <p-card header="Support">
+          <p>Placeholder for support tickets, docs, and contact.</p>
+        </p-card>
+      </div>
+    </main>
+  </div>
+</div>

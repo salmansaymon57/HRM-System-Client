@@ -8,6 +8,7 @@
   align-items: center;
   min-height: 98vh;
   color: #333;
+  position: relative;  /* Allow fixed children */
 }
 
 .login-container {
@@ -79,4 +80,104 @@
   margin-top: 20px;
   color: #a0aec0;
   font-size: 14px;
+}
+
+/* New: Success Popup Styles */
+.success-popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);  /* Green gradient for success */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.success-popup p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.close-popup {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.close-popup:hover {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* TEMP DEBUG: Make popup huge and red if it exists */
+.success-popup {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgb(61, 233, 70) !important;  /* Temp: Red for visibility */
+  color: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  z-index: 9999 !important;  /* Max z-index */
+  max-width: 90% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  animation: none !important;  /* Disable animation temp */
+  border: 3px solid yellow !important;  /* Temp border */
+}
+
+
+
+.success-popup p {
+  margin: 0 !important;
+  font-size: 20px !important;  /* Bigger text */
+  font-weight: bold !important;
+}
+
+.Fail-popup {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgb(246, 26, 26) !important;  /* Temp: Red for visibility */
+  color: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  z-index: 9999 !important;  /* Max z-index */
+  max-width: 90% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  animation: none !important;  /* Disable animation temp */
+  border: 3px solid yellow !important;  /* Temp border */
+}
+
+
+.Fail-popup p {
+  margin: 0 !important;
+  font-size: 20px !important;  /* Bigger text */
+  font-weight: bold !important;
 }

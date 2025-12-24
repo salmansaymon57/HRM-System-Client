@@ -15,15 +15,12 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": [{
+              "glob": "**/*",
+              "input": "public"
+            }],
             "styles": [
-              "src/styles.css",
-              "node_modules/primeicons/primeicons.css"
+              "src/styles.css"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -33,8 +30,7 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
+              "budgets": [{
                   "type": "initial",
                   "maximumWarning": "500kB",
                   "maximumError": "1MB"
@@ -51,12 +47,10 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.development.ts"
+              }]
             }
           },
           "defaultConfiguration": "production"
@@ -80,12 +74,10 @@
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": [{
+              "glob": "**/*",
+              "input": "public"
+            }],
             "styles": [
               "src/styles.css"
             ]

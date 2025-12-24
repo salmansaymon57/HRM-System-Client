@@ -29,14 +29,14 @@ export class Signup implements OnInit {
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-      role: ['', Validators.required],
+      role: [''],
       isActive: [true] 
     });
   }
 
   ngOnInit(): void {
-    // FIXED: Added cca3 to fields for country code values
-    this.countries$ = this.http.get<any[]>('https://restcountries.com/v3.1/all?fields=name,cca3');
+    
+    this.countries$ = this.http.get<any[]>('https://localhost:44393/api/Countries');
   }
 
   onSubmit(): void {
@@ -52,11 +52,11 @@ export class Signup implements OnInit {
     const signupData = {
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
-      country: this.signupForm.value.country,  // Now uses cca3 code (e.g., "USA")
+      country: this.signupForm.value.country,  
       phone: this.signupForm.value.phone,
       password: this.signupForm.value.password,
       confirmPassword: this.signupForm.value.confirmPassword,
-      role: this.signupForm.value.role,
+      role: "User",
       isActive: this.signupForm.value.isActive
     };
 
