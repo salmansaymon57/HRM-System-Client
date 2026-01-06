@@ -1,0 +1,193 @@
+<div class="company-setup-container">
+  <!-- Header with Logo -->
+  <div class="header-logo">
+    <div class="logo-container">
+      <div class="logo-icon">↑</div>
+      <div class="logo-text">
+        <span class="softflames">SoftFlames</span>
+        <span class="ventures">Ventures</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Left Panel: Input Form -->
+    <div class="left-panel">
+      <div class="panel-header">
+        <h2>Branch Setup</h2>
+      </div>
+      <form (ngSubmit)="onSubmit()" #branchForm="ngForm" class="company-form">
+        
+
+        <!-- Branch Name -->
+        <div class="p-field">
+          <label for="branchName">Branch Name</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="branchName" 
+            [(ngModel)]="branchData.branchName" 
+            name="branchName" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Company Name -->
+        <div class="p-field">
+          <label for="companyName">Company Name</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="companyName" 
+            [(ngModel)]="branchData.companyName" 
+            name="companyName" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Company Name Bangla (Conditional) -->
+        <div class="p-field">
+          <label for="companyNameBangla">Company Name (Bangla)</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="companyNameBangla" 
+            [(ngModel)]="branchData.companyNameBangla" 
+            name="companyNameBangla" 
+            class="w-full">
+        </div>
+
+        <!-- Branch Address -->
+        <div class="p-field">
+          <label for="branchAddress">Branch Address</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="branchAddress" 
+            [(ngModel)]="branchData.branchAddress" 
+            name="branchAddress" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Branch Address Bangla (Conditional) -->
+        <div class="p-field">
+          <label for="branchAddressBangla">Branch Address (Bangla)</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="branchAddressBangla" 
+            [(ngModel)]="branchData.branchAddressBangla" 
+            name="branchAddressBangla" 
+            class="w-full">
+        </div>
+
+        
+
+        <!-- Submit Button Native -->
+        <div class="p-field">
+          <button type="submit" [disabled]="!branchForm.valid || isSubmitting || isSuccess" class="submit-btn w-full">
+            <span *ngIf="isSuccess && !isSubmitting" class="pi pi-check"></span>
+            <span *ngIf="isSubmitting" class="pi pi-spinner pi-spin"></span>
+            {{ isSubmitting ? 'Submitting...' : (isSuccess ? 'Submitted!' : 'Submit') }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Panel: Branch List Grid -->
+    <div class="right-panel">
+      <div class="panel-header">
+        <h2>Branch List</h2>
+      </div>
+      <div class="table-header">
+        <span class="p-input-icon-left">
+          <!-- <i class="pi pi-search"></i> -->
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="Search..." />
+        </span>
+      </div>
+      <p-table 
+        #dt
+        [value]="branches" 
+        [paginator]="true" 
+        [rows]="10" 
+        [rowsPerPageOptions]="[5,10,25]" 
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        styleClass="p-datatable-sm"
+        [globalFilterFields]="['branchName','companyName','companyNameBangla','branchAddress','branchAddressBangla','editedBy']">
+        
+        
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>SL</th>
+            <th pSortableColumn="branchName">Branch Name</th>
+            <th pSortableColumn="companyName">Company Name</th>
+            <th>Company Name (Bangla)</th>
+            <th>Branch Address (English)</th>
+            <th>Branch Address (Bangla)</th>
+            <th>Started Date</th>
+            <th>Locked Date</th>
+            <th>Edited By</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-branch let-rowIndex="rowIndex">
+          <tr>
+            <td>{{ getRowNumber(rowIndex) }}</td>
+            <td>{{ branch.branchName }}</td>
+            <td>{{ branch.companyName }}</td>
+            <td>{{ branch.companyNameBangla || '—' }}</td>
+            <td>{{ branch.branchAddress }}</td>
+            <td>{{ branch.branchAddressBangla || '—' }}</td>
+            <td>{{ formatDate(branch.startDate) }}</td>
+            <td>{{ formatDate(branch.lockedDate) || '—' }}</td>
+            <td>{{ branch.editedBy || '—' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-text p-button-secondary" 
+                  (click)="editBranch(branch)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-check" 
+                  class="p-button-rounded p-button-text p-button-success" 
+                  (click)="approveBranch(branch)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-lock" 
+                  class="p-button-rounded p-button-text p-button-warning" 
+                  (click)="lockBranch(branch)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-text p-button-danger" 
+                  (click)="deleteBranch(branch.id)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="10">No branches found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

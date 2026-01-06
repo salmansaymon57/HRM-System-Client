@@ -1,0 +1,209 @@
+<div class="company-setup-container">
+  <!-- Header with Logo -->
+  <div class="header-logo">
+    <div class="logo-container">
+      <div class="logo-icon">↑</div>
+      <div class="logo-text">
+        <span class="softflames">SoftFlames</span>
+        <span class="ventures">Ventures</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Left Panel: Input Form -->
+    <div class="left-panel">
+      <div class="panel-header">
+        <h2>Company Setup</h2>
+      </div>
+      <form (ngSubmit)="onSubmit()" #companyForm="ngForm" class="company-form">
+        
+        
+
+        <!-- Company Code -->
+        <div class="p-field">
+          <label for="companyCode">Company Code</label>
+          <input 
+            type="number" 
+            pInputText 
+            id="companyCode" 
+            [(ngModel)]="companyData.companyCode" 
+            name="companyCode" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Company Short Name -->
+        <div class="p-field">
+          <label for="shortName">Company Short Name</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="shortName" 
+            [(ngModel)]="companyData.companyShortName" 
+            name="shortName" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Company Name -->
+        <div class="p-field">
+          <label for="companyName">Company Name</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="companyName" 
+            [(ngModel)]="companyData.companyName" 
+            name="companyName" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Company Name Bangla (Conditional) -->
+        <div class="p-field">
+          <label for="companyNameBangla">Company Name (Bangla)</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="companyNameBangla" 
+            [(ngModel)]="companyData.companyNameBangla" 
+            name="companyNameBangla" 
+            class="w-full">
+        </div>
+
+        <!-- Company Address -->
+        <div class="p-field">
+          <label for="address">Company Address</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="address" 
+            [(ngModel)]="companyData.companyAddress" 
+            name="address" 
+            required 
+            class="w-full">
+        </div>
+
+        <!-- Company Address Bangla (Conditional) -->
+        <div class="p-field">
+          <label for="addressBangla">Company Address (Bangla)</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="addressBangla" 
+            [(ngModel)]="companyData.companyAddressBangla" 
+            name="addressBangla" 
+            class="w-full">
+        </div>
+
+        
+
+        <!-- Submit Button Native -->
+        <div class="p-field">
+          <button type="submit" [disabled]="!companyForm.valid || isSubmitting || isSuccess" class="submit-btn w-full">
+            <span *ngIf="isSuccess && !isSubmitting" class="pi pi-check"></span>
+            <span *ngIf="isSubmitting" class="pi pi-spinner pi-spin"></span>
+            {{ isSubmitting ? 'Submitting...' : (isSuccess ? 'Submitted!' : 'Submit') }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Panel: Company List Grid -->
+    <div class="right-panel">
+      <div class="panel-header">
+        <h2>Company List</h2>
+      </div>
+      <div class="table-header">
+        <span class="p-input-icon-left">
+          <!-- <i class="pi pi-search"></i> -->
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="Search..." />
+        </span>
+      </div>
+      <p-table 
+        #dt
+        [value]="companies" 
+        [paginator]="true" 
+        [rows]="10" 
+        [rowsPerPageOptions]="[5,10,25]" 
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        styleClass="p-datatable-sm"
+        [globalFilterFields]="['companyCode','companyShortName','companyName','companyNameBangla','companyAddress','editedBy']">
+        
+        
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>SL</th>
+            <th>Code</th>
+            <th pSortableColumn="companyShortName">Short Name</th>
+            <th pSortableColumn="companyName">Company Name</th>
+            <th>Bangla Name</th>
+            <th>Address (English)</th>
+            <th>Address (Bangla)</th>
+            <th>Started Date</th>
+            <th>Locked Date</th>
+            <th>Edited By</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-company let-rowIndex="rowIndex">
+          <tr>
+            <td>{{ getRowNumber(rowIndex) }}</td>
+            <td>{{ company.companyCode }}</td>
+            <td>{{ company.companyShortName }}</td>
+            <td>{{ company.companyName }}</td>
+            <td>{{ company.companyNameBangla || '—' }}</td>
+            <td>{{ company.companyAddress }}</td>
+            <td>{{ company.companyAddressBangla || '—' }}</td>
+            <td>{{ formatDate(company.startDate) }}</td>
+            <td>{{ formatDate(company.lockedDate) || '—' }}</td>
+            <td>{{ company.editedBy || '—' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-text p-button-secondary" 
+                  (click)="editCompany(company)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-check" 
+                  class="p-button-rounded p-button-text p-button-success" 
+                  (click)="approveCompany(company)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-lock" 
+                  class="p-button-rounded p-button-text p-button-warning" 
+                  (click)="lockCompany(company)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-text p-button-danger" 
+                  (click)="deleteCompany(company.id)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="11">No companies found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

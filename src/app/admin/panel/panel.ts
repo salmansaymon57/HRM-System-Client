@@ -6,7 +6,9 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { ChartModule } from 'primeng/chart';  // For dummy charts in dashboard
+import { ChartModule } from 'primeng/chart'; 
+import { Setup } from '../CompanySetup/setup/setup';
+import { Branches } from '../CompanySetup/branches/branches';
 
 interface User {
   id: number;
@@ -18,6 +20,7 @@ interface User {
   joinedDate: Date;
 }
 
+
 interface StatCard {
   title: string;
   value: number;
@@ -28,7 +31,7 @@ interface StatCard {
 
 @Component({
   selector: 'app-panel',
-  imports: [CommonModule, TableModule, ButtonModule, MenuModule, CardModule, InputTextModule, ChartModule],
+  imports: [CommonModule, TableModule, ButtonModule, MenuModule, CardModule, InputTextModule, ChartModule, Setup, Branches],
   templateUrl: './panel.html',
   styleUrl: './panel.css',
 })
@@ -81,13 +84,13 @@ export class Panel implements OnInit {
       ]
     },
     {
-      label: 'Settings',
+      label: 'Companies',
       icon: '⚙️',
-      routerLink: '/admin/settings',
-      command: () => this.setActiveTab('settings'),
+      routerLink: '/admin/companies',
+      command: () => this.setActiveTab('companies'),
       items: [
-        { label: 'Profile', icon: '👤', command: () => console.log('Profile') },
-        { label: 'System Config', icon: '🛠️', command: () => console.log('Config') },
+        { label: 'Setup', icon: '👤', command: () => this.setActiveTab('companies') },
+        { label: 'Branches', icon: '🛠️', command: () => this.setActiveTab('branches') },
         { label: 'Backup', icon: '💾', command: () => console.log('Backup') },
         { separator: true },
         { label: 'Logout', icon: '🚪', command: () => console.log('Logout') }
@@ -109,7 +112,7 @@ export class Panel implements OnInit {
   activeTab: string = 'dashboard';  // Default to dashboard
 
   ngOnInit() {
-    // Dummy initialization
+    
   }
 
   setActiveTab(tab: string) {
@@ -126,12 +129,10 @@ export class Panel implements OnInit {
   }
 
   editUser(user: User) {
-    // Placeholder for edit functionality
     console.log('Edit user:', user);
   }
 
   deleteUser(user: User) {
-    // Placeholder for delete functionality
     console.log('Delete user:', user);
   }
 

@@ -6,16 +6,19 @@ import { Signup } from './auth/signup/signup';
 import { VerifyEmail } from './auth/verify-email/verify-email';
 import { Unverified } from './auth/unverified/unverified';
 import { Panel } from './admin/panel/panel';
+import { Setup } from './admin/CompanySetup/setup/setup';
+import { Login } from './auth/login/login';
+import { Branches } from './admin/CompanySetup/branches/branches';
 
 export const routes: Routes = [
 
     {
-        path: '', pathMatch: 'full', redirectTo: 'login'
+        path: '', component: Login
 
     },
 
     {
-        path: 'login', loadComponent: () => import('./auth/login/login').then(m => m.Login)
+        path: 'login', component: Login
 
     },
 
@@ -38,6 +41,18 @@ export const routes: Routes = [
 
     {
         path:'admin-panel', component: Panel
+    },
+
+    {
+        path:'company-Setup', component: Setup
+    },
+
+    {
+        path:'company-Setup', component: Setup
+    },
+
+    {
+        path:'branches', component: Branches
     },
 
 

@@ -52,7 +52,9 @@ export class d_List implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
     this.loadDepartments();
+    }
   }
 
   ngOnDestroy() {

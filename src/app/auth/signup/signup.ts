@@ -24,6 +24,7 @@ export class Signup implements OnInit {
   ) {
     this.signupForm = this.fb.group({
       username: ['', [Validators.required]],
+      fullName: ['', [Validators.required]], 
       email: ['', [Validators.required, Validators.email]],
       country: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
@@ -51,6 +52,7 @@ export class Signup implements OnInit {
 
     const signupData = {
       username: this.signupForm.value.username,
+      fullName: this.signupForm.value.fullName,
       email: this.signupForm.value.email,
       country: this.signupForm.value.country,  
       phone: this.signupForm.value.phone,

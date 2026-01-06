@@ -1,1 +1,21 @@
 @import "primeicons/primeicons.css";
+
+
+/* Targets the whole scrollbar */
+::-webkit-scrollbar {
+  width: 5px; /* thickness of the vertical scrollbar */
+  height: 5px; /* thickness of the horizontal scrollbar */
+}
+
+/* Styles the track (background) */
+::-webkit-scrollbar-track {
+  background: #ff8c00;
+  border-radius: 10px;
+}
+
+/* Styles the thumb (draggable handle) */
+::-webkit-scrollbar-thumb {
+  background: #1e90ff;
+  border-radius: 10px;
+}
+

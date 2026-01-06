@@ -60,7 +60,9 @@ export class List implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
     this.loadEmployees();
+    }
 
 
     if (isPlatformBrowser(this.platformId)){
