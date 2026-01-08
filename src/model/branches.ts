@@ -1,5 +1,6 @@
 export interface branchModel {
     id: string;
+    branchCode: number | null;
     branchName: string;
     companyName: string;
     companyNameBangla: string;

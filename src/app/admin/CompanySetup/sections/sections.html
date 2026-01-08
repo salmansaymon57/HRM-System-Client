@@ -1,0 +1,166 @@
+<div class="company-setup-container">
+  <!-- Header with Logo -->
+  <div class="header-logo">
+    <div class="logo-container">
+      <div class="logo-icon">↑</div>
+      <div class="logo-text">
+        <span class="softflames">SoftFlames</span>
+        <span class="ventures">Ventures</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Left Panel: Input Form -->
+    <div class="left-panel">
+      <div class="panel-header">
+        <h2>Section Setup</h2>
+      </div>
+      <form (ngSubmit)="onSubmit()" #sectionForm="ngForm" class="company-form">
+
+        <!-- Department Name -->
+        <div class="p-field">
+          <label for="departmentName">Department Name</label>
+          <p-select id="departmentName" [(ngModel)]="sectionData.departmentName" name="departmentName" [options]="departmentNames"
+            optionLabel="name" optionValue="name" placeholder="Select a Department" required class="w-full">
+          </p-select>
+          
+        </div>
+
+
+
+        <!-- Section Code -->
+        <div class="p-field">
+          <label for="sectionCode">Section Code</label>
+          <input 
+            type="number" 
+            pInputText 
+            id="sectionCode" 
+            [(ngModel)]="sectionData.sectionCode"
+            name="sectionCode" 
+            required 
+            class="w-full">
+        </div>
+        
+
+        <!-- Section Name -->
+        <div class="p-field">
+          <label for="sectionName">Section Name</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="sectionName" 
+            [(ngModel)]="sectionData.sectionName" 
+            name="sectionName" 
+            required 
+            class="w-full">
+        </div>
+
+
+        
+        
+        
+
+        <!-- Submit Button Native -->
+        <div class="p-field">
+          <button type="submit" [disabled]="!sectionForm.valid || isSubmitting || isSuccess" class="submit-btn w-full">
+            <span *ngIf="isSuccess && !isSubmitting" class="pi pi-check"></span>
+            <span *ngIf="isSubmitting" class="pi pi-spinner pi-spin"></span>
+            {{ isSubmitting ? 'Submitting...' : (isSuccess ? 'Submitted!' : 'Submit') }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Panel: Section List Grid -->
+    <div class="right-panel">
+      <div class="panel-header">
+        <h2>Section List</h2>
+      </div>
+      <div class="table-header">
+        <span class="p-input-icon-left">
+          <!-- <i class="pi pi-search"></i> -->
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="Search..." />
+        </span>
+      </div>
+      <p-table 
+        #dt
+        [value]="sections" 
+        [paginator]="true" 
+        [rows]="10" 
+        [rowsPerPageOptions]="[5,10,25]" 
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        styleClass="p-datatable-sm"
+        [globalFilterFields]="['departmentName','sectionCode','sectionName']">
+        
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>SL</th>
+            <th pSortableColumn="departmentName">Department Name</th>
+            <th pSortableColumn="sectionCode">Section Code</th>
+            <th pSortableColumn="sectionName">Section Name</th>
+            
+            <th>isActive</th>
+            <th>createdDate</th>
+            <th>modifiedDate</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-section let-rowIndex="rowIndex">
+          <tr>
+            <td>{{ getRowNumber(rowIndex) }}</td>
+            <td>{{ section.departmentName }}</td>
+            <td>{{ section.sectionCode }}</td>
+            <td>{{ section.sectionName }}</td>
+            <td>{{ section.isActive ? 'Yes' : 'No' }}</td>
+            <td>{{ formatDate(section.createdDate) }}</td>
+            <td>{{ formatDate(section.modifiedDate) || '—' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-text p-button-secondary" 
+                  (click)="editSection(section)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-check" 
+                  class="p-button-rounded p-button-text p-button-success" 
+                  (click)="approveSection(section)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-lock" 
+                  class="p-button-rounded p-button-text p-button-warning" 
+                  (click)="lockSection(section)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-text p-button-danger" 
+                  (click)="deleteSection(section.id)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No sections found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,13 @@ import { Observable } from 'rxjs';
 import { departmentModel } from '../../model/departments';
 import { isPlatformBrowser } from '@angular/common';
 
+interface DepartmentM {
+  id: number;
+  departmentName: string;
+ 
+}
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,6 +36,14 @@ export class Departments {
     console.log('No token or server-side: Empty headers for Departments');
     return new HttpHeaders();
   }
+
+
+  GetNames(): Observable<DepartmentM[]> {  // Must return Observable<string[]>
+        const headers = this.getAuthHeaders();
+        const requestUrl = `${this.apiUrl}/Name`;
+        console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
+        return this.http.get<DepartmentM[]>(requestUrl, { headers });
+      }
 
   Getall(): Observable<departmentModel[]> {
     const headers = this.getAuthHeaders();

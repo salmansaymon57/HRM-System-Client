@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenuItem } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ChartModule } from 'primeng/chart'; 
 import { Setup } from '../CompanySetup/setup/setup';
 import { Branches } from '../CompanySetup/branches/branches';
+import { Department } from '../CompanySetup/departments/departments';
+import { Units } from '../CompanySetup/units/units';
+import { Sections } from '../CompanySetup/sections/sections';
 
 interface User {
   id: number;
@@ -20,7 +23,6 @@ interface User {
   joinedDate: Date;
 }
 
-
 interface StatCard {
   title: string;
   value: number;
@@ -28,14 +30,15 @@ interface StatCard {
   color: string;
 }
 
-
 @Component({
   selector: 'app-panel',
-  imports: [CommonModule, TableModule, ButtonModule, MenuModule, CardModule, InputTextModule, ChartModule, Setup, Branches],
+  imports: [CommonModule, TableModule, ButtonModule, TieredMenuModule, CardModule, InputTextModule, ChartModule, 
+    Setup, Branches, Department, Units, Sections],
   templateUrl: './panel.html',
   styleUrl: './panel.css',
 })
 export class Panel implements OnInit {
+
   users: User[] = [
     { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active', department: 'IT', joinedDate: new Date('2024-01-15') },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', status: 'Inactive', department: 'HR', joinedDate: new Date('2024-02-20') },
@@ -84,16 +87,14 @@ export class Panel implements OnInit {
       ]
     },
     {
-      label: 'Companies',
+      label: 'Setup',
       icon: '⚙️',
-      routerLink: '/admin/companies',
-      command: () => this.setActiveTab('companies'),
       items: [
-        { label: 'Setup', icon: '👤', command: () => this.setActiveTab('companies') },
+        { label: 'Companies', icon: '👤', command: () => this.setActiveTab('companies') },
         { label: 'Branches', icon: '🛠️', command: () => this.setActiveTab('branches') },
-        { label: 'Backup', icon: '💾', command: () => console.log('Backup') },
-        { separator: true },
-        { label: 'Logout', icon: '🚪', command: () => console.log('Logout') }
+        { label: 'Departments', icon: '💾', command: () => this.setActiveTab('departments') },
+        { label: 'Sections', icon: '📁', command: () => this.setActiveTab('sections') },
+        { label: 'Units', icon: '📦', command: () => this.setActiveTab('units') }
       ]
     },
     {
@@ -104,7 +105,9 @@ export class Panel implements OnInit {
       items: [
         { label: 'Tickets', icon: '🎫', command: () => console.log('Tickets') },
         { label: 'Documentation', icon: '📚', command: () => console.log('Docs') },
-        { label: 'Contact', icon: '📞', command: () => console.log('Contact') }
+        { label: 'Contact', icon: '📞', command: () => console.log('Contact') },
+        { separator: true },
+        { label: 'Logout', icon: '🚪', command: () => console.log('Logout') }
       ]
     }
   ];
@@ -135,5 +138,4 @@ export class Panel implements OnInit {
   deleteUser(user: User) {
     console.log('Delete user:', user);
   }
-
 }

@@ -36,11 +36,11 @@ export class d_Add implements OnInit, OnDestroy {
     if (!this.isAddMode && this.editData) {
       this._form.patchValue({
         id: this.editData.id,
-        name: this.editData.name,
-        description: this.editData.description,
-        isActive : this.editData.isActive,
-        createdDate : this.editData.createdDate,
-        modifiedDate: this.editData.modifiedDate
+        name: this.editData.departmentName,
+        DepartmentCode: this.editData.departmentCode,
+        companyName: this.editData.companyName,
+        branchName: this.editData.branchName,
+        isActive: this.editData.isActive,
       });
     }
   }
@@ -55,11 +55,11 @@ export class d_Add implements OnInit, OnDestroy {
     if (this._form.valid) {
       const formValue = this._form.getRawValue();
       let _data: Partial<departmentModel> = {  
-        name: formValue.name as string,
-        description: formValue.description as string,
-        isActive: formValue.isActive as boolean,
-        createdDate: formValue.createdDate as Date,
-        modifiedDate: formValue.modifiedDate as Date
+        departmentCode: formValue.departmentCode,
+        departmentName: formValue.departmentName,
+        companyName: formValue.companyName,
+        branchName: formValue.branchName,
+        isActive: formValue.isActive,
       };
 
       if (this.isAddMode) {

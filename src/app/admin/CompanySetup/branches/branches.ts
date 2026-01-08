@@ -5,9 +5,14 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { Table } from 'primeng/table';
+import { SelectModule } from 'primeng/select';
 
 import { branchService } from '../../../service/branches';
 import { branchModel } from '../../../../model/branches';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { CompanySetup } from '../../../service/company-setup';
 
 interface ExtendedBranch extends branchModel {
   startDate: string; 
@@ -17,7 +22,7 @@ interface ExtendedBranch extends branchModel {
 
 @Component({
   selector: 'app-branches',
-  imports: [CommonModule, FormsModule, TableModule, InputTextModule, ButtonModule],
+  imports: [CommonModule, FormsModule, TableModule, InputTextModule, ButtonModule, SelectModule],
   templateUrl: './branches.html',
   styleUrl: './branches.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -28,6 +33,7 @@ export class Branches implements OnInit, AfterViewInit {
   branches: ExtendedBranch[] = []; 
   branchData: Partial<branchModel> = {
     id: '',
+    branchCode: null,
     branchName: '',
     companyName: '',
     companyNameBangla: '',
@@ -38,16 +44,33 @@ export class Branches implements OnInit, AfterViewInit {
   isSuccess: boolean = false;
   private successTimeout: any;
   private isDataLoaded: boolean = false;
+  companies: { name: string }[] = [];
 
   constructor(
     private branchService: branchService,
+    private http: HttpClient,
+    private companyService: CompanySetup,
     @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // No async in OnInit
+    this.loadCompanies();
+    
   }
+
+  private loadCompanies(): void {
+  this.companyService.GetNames().subscribe({
+    next: (companies: any[]) => {
+      this.companies = companies.map(company => ({ name: typeof company === 'string' ? company : company.companyName }));
+      console.log('Companies loaded:', this.companies);  // Optional: Log for debugging
+    },
+    error: (error) => {
+      console.error('Error fetching companies:', error);
+      this.companies = [];  // Fallback to empty array on error
+    }
+  });
+}
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId) && !this.isDataLoaded) {
@@ -66,7 +89,8 @@ export class Branches implements OnInit, AfterViewInit {
       next: (data) => {
         setTimeout(() => {
           this.branches = data.map(branch => ({
-            ...branch,  // Spread all original branch fields (branchName, branchAddress, etc.)
+            ...branch,  // Spread all original branch fields including branchCode
+            branchCode: branch.branchCode,
             startDate: new Date().toISOString().split('T')[0],
             lockedDate: new Date().toISOString().split('T')[0],
             editedBy: ''
@@ -119,13 +143,17 @@ export class Branches implements OnInit, AfterViewInit {
     } else {
       
       const createData = {
+        branchCode: submitData.branchCode ?? 0,
         branchName: submitData.branchName,
         companyName: submitData.companyName,
         companyNameBangla: submitData.companyNameBangla || '',
         branchAddress: submitData.branchAddress,
         branchAddressBangla: submitData.branchAddressBangla || ''
       };
-      this.branchService.Create(createData as Omit<branchModel, 'id'>).subscribe({
+
+      console.log('Sending createData payload:', createData);
+      
+      this.branchService.Create(createData as any).subscribe({
         next: (newBranch) => {
           console.log('Create successful:', newBranch);
           const extendedNew: ExtendedBranch = { 

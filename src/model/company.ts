@@ -6,6 +6,7 @@ export interface companyModel {
   companyNameBangla: string;
   companyAddress: string;
   companyAddressBangla: string; 
+  branchCode: number;
   branchName: string;
   branchAddress: string;
   branchAddressBangla: string;

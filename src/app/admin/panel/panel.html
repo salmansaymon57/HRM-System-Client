@@ -1,9 +1,10 @@
 <div class="admin-panel">
-  <!-- Sidebar (Persistent left sidebar with expanded menu) -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <h2>Admin Pro</h2>
-      <p-menu [model]="menuItems" [popup]="false" class="sidebar-menu"></p-menu>
+
+      <p-tieredMenu [model]="menuItems" [popup]="false" class="sidebar-menu"></p-tieredMenu>
+      
     </div>
   </aside>
 
@@ -81,21 +82,35 @@
           </p-table>
         </p-card>
       </div>
+      
 
       <!-- Companies Section -->
       <div *ngIf="activeTab === 'companies'">
-        <p-card header="Companies">
-          <p>Company settings - configure profiles, branches, etc.</p>
-        </p-card>
+        
         <app-setup></app-setup>
       </div>
 
       <div *ngIf="activeTab === 'branches'">
-        <p-card header="Companies">
-          <p>Company settings - configure profiles, branches, etc.</p>
-        </p-card>
+        
         <app-branches></app-branches>
       </div>
+
+      <div *ngIf="activeTab === 'departments'">
+        
+        <app-departments></app-departments>
+      </div>
+
+      <div *ngIf="activeTab === 'sections'">
+        
+        <app-sections></app-sections>
+      </div>
+
+      <div *ngIf="activeTab === 'units'">
+        
+        <app-units></app-units>
+      </div>
+
+      
     </main>
   </div>
 </div>

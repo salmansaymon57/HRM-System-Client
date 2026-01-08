@@ -1,25 +1,20 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { companyModel } from '../../model/company';
+import { sectionModel } from '../../model/sections';
 import { isPlatformBrowser } from '@angular/common';
 
-
-
-interface Company {
+interface Section {
   id: number;
-  companyName: string;
+  sectionName: string;
  
 }
 
 @Injectable({
   providedIn: 'root',
 })
-
-
-
-export class CompanySetup {
-  private apiUrl = 'https://localhost:44393/api/Company'; 
+export class sectionService  {
+  private apiUrl = 'https://localhost:44393/api/Sections'; 
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -42,40 +37,40 @@ export class CompanySetup {
   }
 
 
-  GetNames(): Observable<Company[]> {  // Must return Observable<string[]>
-    const headers = this.getAuthHeaders();
-    const requestUrl = `${this.apiUrl}/Names`;
-    console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.get<Company[]>(requestUrl, { headers });
-  }
+  GetNames(): Observable<Section[]> {  // Must return Observable<string[]>
+      const headers = this.getAuthHeaders();
+      const requestUrl = `${this.apiUrl}/Names`;
+      console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
+      return this.http.get<Section[]>(requestUrl, { headers });
+    }
 
-  Getall(): Observable<companyModel[]> {
+  Getall(): Observable<sectionModel[]> {
     const headers = this.getAuthHeaders();
     const requestUrl = this.apiUrl;
     console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');  // Pre-send log
-    return this.http.get<companyModel[]>(requestUrl, { headers });
+    return this.http.get<sectionModel[]>(requestUrl, { headers });
   }
 
   // Apply similar logging to other methods if needed (Get, Create, etc.)
-  Get(id: string): Observable<companyModel> {  
+  Get(id: string): Observable<sectionModel> {  
     const headers = this.getAuthHeaders();
     const requestUrl = `${this.apiUrl}/${id}`;
     console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.get<companyModel>(requestUrl, { headers });
+    return this.http.get<sectionModel>(requestUrl, { headers });
   }
 
-  Create(data: Omit<companyModel, 'id'>): Observable<companyModel> {  
+  Create(data: Omit<sectionModel, 'id'>): Observable<sectionModel> {  
     const headers = this.getAuthHeaders();
     const requestUrl = this.apiUrl;
     console.log(`Sending POST to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.post<companyModel>(requestUrl, data, { headers });
+    return this.http.post<sectionModel>(requestUrl, data, { headers });
   }
 
-  Update(data: companyModel): Observable<companyModel> {
+  Update(data: sectionModel): Observable<sectionModel> {
     const headers = this.getAuthHeaders();
     const requestUrl = `${this.apiUrl}/${data.id}`;
     console.log(`Sending PUT to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.put<companyModel>(requestUrl, data, { headers });
+    return this.http.put<sectionModel>(requestUrl, data, { headers });
   }
 
   Delete(id: string): Observable<void> {  
@@ -86,3 +81,5 @@ export class CompanySetup {
   }
   
 }
+
+

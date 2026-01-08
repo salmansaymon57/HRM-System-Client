@@ -1,0 +1,166 @@
+<div class="company-setup-container">
+  <!-- Header with Logo -->
+  <div class="header-logo">
+    <div class="logo-container">
+      <div class="logo-icon">↑</div>
+      <div class="logo-text">
+        <span class="softflames">SoftFlames</span>
+        <span class="ventures">Ventures</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Left Panel: Input Form -->
+    <div class="left-panel">
+      <div class="panel-header">
+        <h2>Unit Setup</h2>
+      </div>
+      <form (ngSubmit)="onSubmit()" #unitForm="ngForm" class="company-form">
+
+        <!-- Section Name -->
+        <div class="p-field">
+          <label for="sectionName">Section Name</label>
+          <p-select id="sectionName" [(ngModel)]="unitData.sectionName" name="sectionName" [options]="sectionNames"
+            optionLabel="name" optionValue="name" placeholder="Select a Section" required class="w-full">
+          </p-select>
+          
+        </div>
+
+
+
+        <!-- Unit Code -->
+        <div class="p-field">
+          <label for="unitCode">Unit Code</label>
+          <input 
+            type="number" 
+            pInputText 
+            id="unitCode" 
+            [(ngModel)]="unitData.unitCode"
+            name="unitCode" 
+            required 
+            class="w-full">
+        </div>
+        
+
+        <!-- Unit Name -->
+        <div class="p-field">
+          <label for="unitName">Unit Name</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="unitName" 
+            [(ngModel)]="unitData.unitName" 
+            name="unitName" 
+            required 
+            class="w-full">
+        </div>
+
+
+        
+        
+        
+
+        <!-- Submit Button Native -->
+        <div class="p-field">
+          <button type="submit" [disabled]="!unitForm.valid || isSubmitting || isSuccess" class="submit-btn w-full">
+            <span *ngIf="isSuccess && !isSubmitting" class="pi pi-check"></span>
+            <span *ngIf="isSubmitting" class="pi pi-spinner pi-spin"></span>
+            {{ isSubmitting ? 'Submitting...' : (isSuccess ? 'Submitted!' : 'Submit') }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Panel: Unit List Grid -->
+    <div class="right-panel">
+      <div class="panel-header">
+        <h2>Unit List</h2>
+      </div>
+      <div class="table-header">
+        <span class="p-input-icon-left">
+          <!-- <i class="pi pi-search"></i> -->
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="Search..." />
+        </span>
+      </div>
+      <p-table 
+        #dt
+        [value]="units" 
+        [paginator]="true" 
+        [rows]="10" 
+        [rowsPerPageOptions]="[5,10,25]" 
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        styleClass="p-datatable-sm"
+        [globalFilterFields]="['sectionName','unitCode','unitName']">
+        
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>SL</th>
+            <th pSortableColumn="sectionName">Section Name</th>
+            <th pSortableColumn="unitCode">Unit Code</th>
+            <th pSortableColumn="unitName">Unit Name</th>
+            
+            <th>isActive</th>
+            <th>createdDate</th>
+            <th>modifiedDate</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-unit let-rowIndex="rowIndex">
+          <tr>
+            <td>{{ getRowNumber(rowIndex) }}</td>
+            <td>{{ unit.sectionName }}</td>
+            <td>{{ unit.unitCode }}</td>
+            <td>{{ unit.unitName }}</td>
+            <td>{{ unit.isActive ? 'Yes' : 'No' }}</td>
+            <td>{{ formatDate(unit.createdDate) }}</td>
+            <td>{{ formatDate(unit.modifiedDate) || '—' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-text p-button-secondary" 
+                  (click)="editUnit(unit)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-check" 
+                  class="p-button-rounded p-button-text p-button-success" 
+                  (click)="approveUnit(unit)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-lock" 
+                  class="p-button-rounded p-button-text p-button-warning" 
+                  (click)="lockUnit(unit)">
+                </button>
+                <button 
+                  pButton 
+                  type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-text p-button-danger" 
+                  (click)="deleteUnit(unit.id)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No units found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

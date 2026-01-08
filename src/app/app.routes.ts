@@ -9,6 +9,9 @@ import { Panel } from './admin/panel/panel';
 import { Setup } from './admin/CompanySetup/setup/setup';
 import { Login } from './auth/login/login';
 import { Branches } from './admin/CompanySetup/branches/branches';
+import { Department } from './admin/CompanySetup/departments/departments';
+import { Sections } from './admin/CompanySetup/sections/sections';
+import { Units } from './admin/CompanySetup/units/units';
 
 export const routes: Routes = [
 
@@ -54,6 +57,18 @@ export const routes: Routes = [
     {
         path:'branches', component: Branches
     },
+    {
+        path:'departments', component: Department
+    },
+    {
+        path:'sections', component: Sections
+    },
+    {
+        path:'units', component: Units
+    },
+
+
+    
 
 
 

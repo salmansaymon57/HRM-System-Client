@@ -1,8 +1,15 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { companyModel } from '../../model/company';
+import { branchModel } from '../../model/branches';
 import { isPlatformBrowser } from '@angular/common';
+
+
+interface Branch {
+  id: number;
+  branchName: string;
+ 
+}
 
 @Injectable({
   providedIn: 'root',
@@ -30,33 +37,41 @@ export class branchService {
     return new HttpHeaders();
   }
 
-  Getall(): Observable<companyModel[]> {
+
+  GetNames(): Observable<Branch[]> {  // Must return Observable<string[]>
+      const headers = this.getAuthHeaders();
+      const requestUrl = `${this.apiUrl}/Name`;
+      console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
+      return this.http.get<Branch[]>(requestUrl, { headers });
+    }
+
+  Getall(): Observable<branchModel[]> {
     const headers = this.getAuthHeaders();
     const requestUrl = this.apiUrl;
     console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');  // Pre-send log
-    return this.http.get<companyModel[]>(requestUrl, { headers });
+    return this.http.get<branchModel[]>(requestUrl, { headers });
   }
 
   // Apply similar logging to other methods if needed (Get, Create, etc.)
-  Get(id: string): Observable<companyModel> {  
+  Get(id: string): Observable<branchModel> {  
     const headers = this.getAuthHeaders();
     const requestUrl = `${this.apiUrl}/${id}`;
     console.log(`Sending GET to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.get<companyModel>(requestUrl, { headers });
+    return this.http.get<branchModel>(requestUrl, { headers });
   }
 
-  Create(data: Omit<companyModel, 'id'>): Observable<companyModel> {  
+  Create(data: Omit<branchModel, 'id'>): Observable<branchModel> {  
     const headers = this.getAuthHeaders();
     const requestUrl = this.apiUrl;
     console.log(`Sending POST to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.post<companyModel>(requestUrl, data, { headers });
+    return this.http.post<branchModel>(requestUrl, data, { headers });
   }
 
-  Update(data: companyModel): Observable<companyModel> {
+  Update(data: branchModel): Observable<branchModel> {
     const headers = this.getAuthHeaders();
     const requestUrl = `${this.apiUrl}/${data.id}`;
     console.log(`Sending PUT to ${requestUrl} with headers:`, headers.keys().length > 0 ? 'Auth included' : 'No auth');
-    return this.http.put<companyModel>(requestUrl, data, { headers });
+    return this.http.put<branchModel>(requestUrl, data, { headers });
   }
 
   Delete(id: string): Observable<void> {  

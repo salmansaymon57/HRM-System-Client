@@ -27,7 +27,7 @@
 }
 
 .sidebar-menu {
-  .p-menu {
+  .p-tieredmenu {
     background: transparent;
     border: none;
     width: 100%;
@@ -52,6 +52,16 @@
     .p-submenu .p-menuitem-link {
       padding-left: 2rem;
       background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Ensure sub-menu toggles properly */
+    .p-menuitem-active > .p-menuitem-link {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .p-submenu {
+      background: transparent;
+      border: none;
     }
   }
 }
